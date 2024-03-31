@@ -23,24 +23,25 @@ type ExampleReply struct {
 }
 
 const (
-	mapType int = iota
-	reduceType
-	Waitting
+	mapping = iota
+	reducing
+	waiting
 	done
 )
 
 type Args struct {
-	taskType  int
-	timeStamp int
-	fileName  string
+	TaskType  int
+	FileName  string
+	TimeStamp int
+	WorkerId  int
 }
 
 type Reply struct {
-	workerId   int
-	taskType   int
-	taskName   string
-	nReduceNum int
-	timeStamp  int
+	WorkerId   int
+	TaskType   int
+	TaskName   string
+	NReduceNum int
+	TimeStamp  int
 }
 
 // Add your RPC definitions here.

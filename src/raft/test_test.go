@@ -51,23 +51,26 @@ func TestInitialElection3A(t *testing.T) {
 }
 
 func TestReElection3A(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
 
 	cfg.begin("Test (3A): election after network failure")
 
-	leader1 := cfg.checkOneLeader()
+	leader1 := cfg.checkOneLeader() // 2
 
 	// if the leader disconnects, a new one should be elected.
 	cfg.disconnect(leader1)
-	cfg.checkOneLeader()
+	cfg.checkOneLeader() // 1
 
 	// if the old leader rejoins, that shouldn't
 	// disturb the new leader. and the old leader
 	// should switch to follower.
 	cfg.connect(leader1)
-	leader2 := cfg.checkOneLeader()
+	leader2 := cfg.checkOneLeader() // 1
+	fmt.Println(fmt.Sprintf("go test now leader2 is %d", leader2))
 
 	// if there's no quorum, no new leader should
 	// be elected.
@@ -91,6 +94,8 @@ func TestReElection3A(t *testing.T) {
 }
 
 func TestManyElections3A(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
 	servers := 7
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -108,6 +113,7 @@ func TestManyElections3A(t *testing.T) {
 		cfg.disconnect(i1)
 		cfg.disconnect(i2)
 		cfg.disconnect(i3)
+		fmt.Println(fmt.Sprintf("%d %d %d disconnect", i1, i2, i3))
 
 		// either the current leader should still be alive,
 		// or the remaining four should elect a new one.
@@ -116,6 +122,7 @@ func TestManyElections3A(t *testing.T) {
 		cfg.connect(i1)
 		cfg.connect(i2)
 		cfg.connect(i3)
+		fmt.Println(fmt.Sprintf("%d %d %d connect", i1, i2, i3))
 	}
 
 	cfg.checkOneLeader()
@@ -124,6 +131,8 @@ func TestManyElections3A(t *testing.T) {
 }
 
 func TestBasicAgree3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -149,6 +158,8 @@ func TestBasicAgree3B(t *testing.T) {
 // check, based on counting bytes of RPCs, that
 // each command is sent to each peer just once.
 func TestRPCBytes3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -181,6 +192,8 @@ func TestRPCBytes3B(t *testing.T) {
 
 // test just failure of followers.
 func TestFollowerFailure3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -226,6 +239,8 @@ func TestFollowerFailure3B(t *testing.T) {
 
 // test just failure of leaders.
 func TestLeaderFailure3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -267,6 +282,9 @@ func TestLeaderFailure3B(t *testing.T) {
 // test that a follower participates after
 // disconnect and re-connect.
 func TestFailAgree3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -301,6 +319,9 @@ func TestFailAgree3B(t *testing.T) {
 }
 
 func TestFailNoAgree3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 5
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -352,6 +373,9 @@ func TestFailNoAgree3B(t *testing.T) {
 }
 
 func TestConcurrentStarts3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -453,6 +477,9 @@ loop:
 }
 
 func TestRejoin3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -563,6 +590,9 @@ func TestBackup3B(t *testing.T) {
 }
 
 func TestCount3B(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -673,6 +703,9 @@ loop:
 }
 
 func TestPersist13C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -719,6 +752,9 @@ func TestPersist13C(t *testing.T) {
 }
 
 func TestPersist23C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 5
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -765,6 +801,9 @@ func TestPersist23C(t *testing.T) {
 }
 
 func TestPersist33C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -803,6 +842,9 @@ func TestPersist33C(t *testing.T) {
 // The leader in a new term may try to finish replicating log entries that
 // haven't been committed yet.
 func TestFigure83C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 5
 	cfg := make_config(t, servers, false, false)
 	defer cfg.cleanup()
@@ -859,6 +901,9 @@ func TestFigure83C(t *testing.T) {
 }
 
 func TestUnreliableAgree3C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 5
 	cfg := make_config(t, servers, true, false)
 	defer cfg.cleanup()
@@ -888,6 +933,9 @@ func TestUnreliableAgree3C(t *testing.T) {
 }
 
 func TestFigure8Unreliable3C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 5
 	cfg := make_config(t, servers, true, false)
 	defer cfg.cleanup()
@@ -1088,10 +1136,16 @@ func internalChurn(t *testing.T, unreliable bool) {
 }
 
 func TestReliableChurn3C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	internalChurn(t, false)
 }
 
 func TestUnreliableChurn3C(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	internalChurn(t, true)
 }
 
@@ -1162,23 +1216,38 @@ func snapcommon(t *testing.T, name string, disconnect bool, reliable bool, crash
 }
 
 func TestSnapshotBasic3D(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	snapcommon(t, "Test (3D): snapshots basic", false, true, false)
 }
 
 func TestSnapshotInstall3D(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	snapcommon(t, "Test (3D): install snapshots (disconnect)", true, true, false)
 }
 
 func TestSnapshotInstallUnreliable3D(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	snapcommon(t, "Test (3D): install snapshots (disconnect+unreliable)",
 		true, false, false)
 }
 
 func TestSnapshotInstallCrash3D(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	snapcommon(t, "Test (3D): install snapshots (crash)", false, true, true)
 }
 
 func TestSnapshotInstallUnCrash3D(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	snapcommon(t, "Test (3D): install snapshots (unreliable+crash)", false, false, true)
 }
 
@@ -1186,6 +1255,9 @@ func TestSnapshotInstallUnCrash3D(t *testing.T) {
 // restart using snapshot along with the
 // tail of the log?
 func TestSnapshotAllCrash3D(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	iters := 5
 	cfg := make_config(t, servers, false, true)
@@ -1226,6 +1298,9 @@ func TestSnapshotAllCrash3D(t *testing.T) {
 // do servers correctly initialize their in-memory copy of the snapshot, making
 // sure that future writes to persistent state don't lose state?
 func TestSnapshotInit3D(t *testing.T) {
+	// add this for log to printf all
+	time.Sleep(1 * time.Second)
+
 	servers := 3
 	cfg := make_config(t, servers, false, true)
 	defer cfg.cleanup()

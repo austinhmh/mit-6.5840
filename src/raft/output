@@ -1,0 +1,742 @@
+Test (3A): initial election ...
+1 become candidate term 1
+2 receive vote to 1 request, vote
+0 receive vote to 1 request, vote
+1 result 3
+1 become leader term 1
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+labgob warning: Decoding into a non-default variable/field Term may not work
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+now 1 is leader
+0 receive appendentrices
+2 receive appendentrices
+  ... Passed --   3.1  3  120   23914    0
+Test (3A): election after network failure ...
+now 1 is leader
+2 become candidate term 1
+1 receive vote to 2 request, vote
+0 receive vote to 2 request, vote
+2 result 3
+2 become leader term 1
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 become candidate term 2
+request rpc false
+2 result 2
+2 become follower term 2
+request rpc false
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+now 2 is leader
+0 receive appendentrices
+1 receive appendentrices
+now 2 is leader
+0 become candidate term 2
+1 receive vote to 0 request, vote
+0 result 3
+0 become leader term 2
+now 0 is leader
+1 receive appendentrices
+1 become candidate term 3
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 3
+1 become candidate term 4
+1 result 0
+1 become follower term 4
+1 become candidate term 5
+0 receive vote to 1 request, vote
+0 become candidate term 4
+request rpc false
+0 result 2
+0 become follower term 4
+0 become candidate term 5
+--- FAIL: TestReElection3A (3.37s)
+    config.go:481: expected no leader among connected servers, but 2 claims to be leader
+Test (3A): multiple elections ...
+1 result 0
+1 become follower term 5
+1 become candidate term 6
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 6
+2 become candidate term 1
+3 receive vote to 2 request, vote
+1 receive vote to 2 request, vote
+0 receive vote to 2 request, vote
+4 receive vote to 2 request, vote
+2 result 3
+2 become leader term 1
+5 receive vote to 2 request, vote
+6 receive vote to 2 request, vote
+3 become candidate term 2
+4 receive vote to 3 request, vote
+5 receive vote to 3 request, vote
+0 receive vote to 3 request, vote
+6 receive vote to 3 request, vote
+3 result 3
+3 become leader term 2
+2 receive vote to 3 request, vote
+1 receive vote to 3 request, vote
+6 become candidate term 3
+4 receive vote to 6 request, vote
+2 receive vote to 6 request, vote
+5 receive vote to 6 request, vote
+6 result 3
+6 become leader term 3
+3 receive vote to 6 request, vote
+0 receive vote to 6 request, vote
+1 receive vote to 6 request, vote
+now 6 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 receive appendentrices
+3 receive appendentrices
+4 receive appendentrices
+5 receive appendentrices
+request rpc false
+now 6 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 receive appendentrices
+3 receive appendentrices
+4 receive appendentrices
+5 receive appendentrices
+now 6 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 receive appendentrices
+3 receive appendentrices
+4 receive appendentrices
+5 receive appendentrices
+now 6 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 receive appendentrices
+3 receive appendentrices
+4 receive appendentrices
+5 receive appendentrices
+now 6 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 receive appendentrices
+3 receive appendentrices
+4 receive appendentrices
+5 receive appendentrices
+now 6 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 receive appendentrices
+3 receive appendentrices
+4 receive appendentrices
+5 receive appendentrices
+now 6 is leader
+0 receive appendentrices
+1 receive appendentrices
+2 receive appendentrices
+3 receive appendentrices
+4 receive appendentrices
+5 receive appendentrices
+now 6 is leader
+0 receive appendentrices
+4 become candidate term 4
+3 receive vote to 4 request, vote
+5 receive vote to 4 request, vote
+0 receive vote to 4 request, vote
+4 result 3
+4 become leader term 4
+2 become candidate term 4
+now 4 is leader
+0 receive appendentrices
+5 become candidate term 5
+3 receive vote to 5 request, vote
+0 receive vote to 5 request, vote
+3 become candidate term 6
+0 receive vote to 3 request, vote
+1 become candidate term 4
+0 become candidate term 7
+0 result 0
+0 become follower term 5
+0 become candidate term 6
+request rpc false
+0 result 2
+0 become follower term 6
+request rpc false
+request rpc false
+5 result 2
+5 become follower term 5
+5 receive vote to 3 request, vote
+request rpc false
+3 result 2
+3 become follower term 6
+3 become candidate term 7
+3 receive vote to 0 request, vote
+request rpc false
+request rpc false
+0 result 2
+0 become follower term 7
+5 become candidate term 7
+5 receive vote to 0 request, vote
+request rpc false
+request rpc false
+0 become candidate term 8
+request rpc false
+2 result 2
+2 become follower term 4
+2 become candidate term 5
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 4
+1 become candidate term 5
+1 receive vote to 2 request, vote
+request rpc false
+1 result 2
+1 become follower term 6
+1 become candidate term 7
+request rpc false
+2 result 2
+2 become follower term 5
+2 receive vote to 1 request, vote
+request rpc false
+1 result 2
+1 become follower term 7
+request rpc false
+request rpc false
+request rpc false
+2 become candidate term 7
+request rpc false
+request rpc false
+1 become candidate term 8
+request rpc false
+3 result 2
+3 become follower term 8
+3 become candidate term 9
+request rpc false
+3 result 2
+3 become follower term 9
+request rpc false
+request rpc false
+2 result 2
+2 become follower term 7
+2 receive appendentrices
+2 become candidate term 8
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 8
+1 become candidate term 9
+5 result 0
+5 become follower term 8
+5 become candidate term 9
+0 result 0
+0 become follower term 8
+0 become candidate term 9
+request rpc false
+3 become candidate term 10
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+2 receive vote to 1 request, vote
+request rpc false
+2 result 2
+2 become follower term 8
+2 receive vote to 5 request, vote
+2 become candidate term 10
+0 result 2
+0 become follower term 9
+0 become candidate term 10
+5 result 2
+5 become follower term 9
+5 receive vote to 2 request, vote
+0 result 2
+0 become follower term 10
+2 result 2
+2 become follower term 10
+5 become candidate term 11
+0 receive vote to 5 request, vote
+2 receive vote to 5 request, vote
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+0 become candidate term 12
+2 receive vote to 0 request, vote
+request rpc false
+request rpc false
+5 result 2
+5 become follower term 11
+5 become candidate term 12
+2 become candidate term 13
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+5 result 2
+5 become follower term 12
+5 become candidate term 13
+1 result 0
+1 become follower term 9
+1 become candidate term 10
+1 receive vote to 0 request, vote
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+5 result 2
+5 become follower term 13
+3 result 0
+3 become follower term 10
+3 become candidate term 11
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 13
+1 receive vote to 3 request, not vote
+2 result 2
+2 become follower term 13
+2 become candidate term 14
+3 result 2
+3 become follower term 11
+3 receive vote to 2 request, vote
+1 receive vote to 2 request, vote
+request rpc false
+0 result 2
+0 become follower term 12
+0 receive vote to 2 request, vote
+request rpc false
+0 become candidate term 14
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+1 become candidate term 15
+3 receive vote to 1 request, vote
+3 become candidate term 16
+request rpc false
+3 result 2
+3 become follower term 16
+5 become candidate term 14
+request rpc false
+request rpc false
+request rpc false
+5 result 2
+5 become follower term 14
+request rpc false
+request rpc false
+3 become candidate term 17
+5 become candidate term 15
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+5 result 2
+5 become follower term 15
+5 become candidate term 16
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 15
+request rpc false
+1 receive vote to 3 request, vote
+1 receive vote to 3 request, vote
+request rpc false
+1 become candidate term 18
+3 result 2
+3 become follower term 17
+3 become candidate term 18
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+2 result 0
+2 become follower term 14
+2 receive vote to 3 request, not vote
+request rpc false
+2 receive vote to 1 request, vote
+2 receive vote to 3 request, vote
+2 become candidate term 17
+2 receive vote to 3 request, vote
+0 result 0
+0 become follower term 14
+0 become candidate term 15
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+3 result 2
+3 become follower term 18
+3 become candidate term 19
+request rpc false
+request rpc false
+0 result 2
+0 become follower term 15
+request rpc false
+0 become candidate term 16
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 18
+1 become candidate term 19
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 19
+1 become candidate term 20
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+2 result 2
+2 become follower term 18
+2 become candidate term 19
+request rpc false
+2 receive vote to 1 request, vote
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+3 result 2
+3 become follower term 19
+3 become candidate term 20
+3 receive vote to 1 request, vote
+3 receive vote to 2 request, vote
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+1 result 2
+1 become follower term 20
+request rpc false
+1 receive vote to 2 request, vote
+1 receive vote to 3 request, vote
+1 become candidate term 23
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+5 result 0
+5 become follower term 16
+5 become candidate term 17
+5 receive vote to 2 request, vote
+5 receive vote to 1 request, vote
+5 receive vote to 2 request, vote
+2 result 3
+2 become leader term 21
+2 receive vote to 3 request, vote
+5 receive vote to 3 request, vote
+2 become candidate term 23
+2 receive vote to 1 request, vote
+3 result 3
+3 become leader term 22
+3 receive vote to 1 request, vote
+1 result 3
+1 become leader term 23
+5 receive vote to 1 request, vote
+3 become candidate term 24
+1 receive vote to 2 request, vote
+3 result 2
+3 become follower term 24
+2 result 2
+2 become follower term 24
+5 result 2
+5 become follower term 24
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+1 become candidate term 25
+3 receive vote to 1 request, vote
+5 receive vote to 1 request, vote
+2 receive vote to 1 request, vote
+1 result 3
+1 become leader term 25
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+3 become candidate term 26
+1 receive vote to 3 request, vote
+2 receive vote to 3 request, vote
+5 receive vote to 3 request, vote
+3 result 3
+3 become leader term 26
+now 3 is leader
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+2 become candidate term 27
+1 receive vote to 2 request, vote
+5 receive vote to 2 request, vote
+request rpc false
+1 become candidate term 28
+5 receive vote to 1 request, vote
+request rpc false
+request rpc false
+5 become candidate term 29
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+request rpc false
+0 result 0
+0 become follower term 16
+0 become candidate term 17
+0 receive vote to 3 request, vote
+0 receive appendentrices
+0 receive vote to 2 request, vote
+2 result 3
+2 become leader term 27
+2 receive appendentrices
+6 become follower term 3
+0 receive vote to 1 request, vote
+2 receive vote to 1 request, vote
+0 receive vote to 5 request, vote
+1 result 3
+1 become leader term 28
+1 receive vote to 5 request, vote
+2 receive vote to 5 request, vote
+5 result 3
+5 become leader term 29
+1 receive appendentrices
+3 become follower term 26
+1 receive vote to 0 request, vote
+5 receive vote to 0 request, vote
+2 receive vote to 0 request, vote
+0 result 3
+0 become leader term 30
+now 0 is leader
+1 receive appendentrices
+2 receive appendentrices
+5 become candidate term 31
+1 receive vote to 5 request, vote
+2 receive vote to 5 request, vote
+request rpc false
+  ... Passed --   5.5  7  421   50736    0
+FAIL
+exit status 1
+FAIL	6.5840/raft	12.119s

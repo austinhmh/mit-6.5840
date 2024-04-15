@@ -59,7 +59,7 @@ func TestReElection3A(t *testing.T) {
 
 	cfg.begin("Test (3A): election after network failure")
 
-	leader1 := cfg.checkOneLeader() // 2
+	leader1 := cfg.checkOneLeader() // 0
 
 	// if the leader disconnects, a new one should be elected.
 	cfg.disconnect(leader1)

@@ -24,6 +24,10 @@ func (rf *Raft) ResetElection() {
 }
 
 func (rf *Raft) ChangeToFollower(term uint32, voteFor int, mod int) {
+	if term < rf.term {
+		return
+	}
+	fmt.Println(fmt.Sprintf("%d become follower term %d, mod %d", rf.me, term, mod))
 	rf.state = FollowerState
 	rf.term = term
 	rf.voteFor = voteFor
@@ -67,11 +71,13 @@ func (rf *Raft) StartVote(term uint32) {
 			continue
 		}
 		wg.Add(1)
-		reply := RequestVoteReply{}
 		go func(x int) {
+			defer wg.Done()
+			reply := RequestVoteReply{}
 			success := rf.sendRequestVote(x, &arg, &reply)
 			if !success {
-				fmt.Println(fmt.Sprintf("request rpc false, send to %d", x))
+				fmt.Println(fmt.Sprintf("%d request rpc false, send to %d", rf.me, x))
+				return
 			}
 
 			if reply.VoteGranted == false {
@@ -85,8 +91,6 @@ func (rf *Raft) StartVote(term uint32) {
 					done <- VoteForLeader
 				}
 			}
-
-			wg.Done()
 		}(i)
 	}
 
@@ -183,16 +187,16 @@ func (rf *Raft) BrocastHeartBeat() {
 
 	for i := range rf.peers {
 		if rf.me != i {
-			go func() {
-				fmt.Println(fmt.Sprintf("%d send append entries rpc to %d", rf.me, i))
-				rf.sendAppendEntriesRpc(i, &arg, &reply)
+			go func(x int) {
+				fmt.Println(fmt.Sprintf("%d send append entries rpc to %d", rf.me, x))
+				rf.sendAppendEntriesRpc(x, &arg, &reply)
 
 				// if reply.term > this term return to follower
 				if reply.Term > rf.term {
 					rf.ChangeToFollower(reply.Term, -1, 4)
 					return
 				}
-			}()
+			}(i)
 		}
 	}
 }
@@ -204,7 +208,7 @@ func (rf *Raft) HeartBeatTicker() {
 		if rf.state == LeaderState {
 			rf.mu.Lock()
 
-			fmt.Println(fmt.Sprintf("now %d is leader", rf.me))
+			fmt.Println(fmt.Sprintf("now %d is leader term %d", rf.me, rf.term))
 			rf.BrocastHeartBeat()
 
 			rf.mu.Unlock()

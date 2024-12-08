@@ -73,6 +73,7 @@ type Raft struct {
 	state    RaftState     // node state
 	leaderID int           // leader number in peers
 	voteFor  int           // votefor which id in this term
+	log      []interface{} // the log to recore command
 
 	startElectionTime time.Time     // time when raft node receive heartbeat or request vote
 	electionTimeOut   time.Duration // when after time no receive appendEntriesRpc or request means this node need to become candidate
@@ -221,13 +222,33 @@ const (
 // term. the third return value is true if this server believes it is
 // the leader.
 func (rf *Raft) Start(command interface{}) (int, int, bool) {
-	index := -1
-	term := -1
-	isLeader := true
-
-	// Your code here (3B).
-
-	return index, term, isLeader
+	//rf.mu.Lock()
+	//defer rf.mu.Unlock()
+	//if rf.leaderID != rf.me {
+	//	return -1, -1, false
+	//}
+	//
+	//// save log and send appendEntries rpc
+	//index := rf.ApplyLog(command)
+	//
+	//num := atomic.Int32{}
+	//done := make(chan struct{}, 1)
+	//for i := range rf.peers {
+	//	go func() {
+	//		// more than half follower return
+	//		defer func() {
+	//			num.Add(1)
+	//			if int(num.Load()) > len(rf.peers)/2 {
+	//				done <- struct{}{}
+	//			}
+	//		}()
+	//
+	//	}()
+	//}
+	//
+	//<-done
+	//return index, int(rf.term), true
+	return -1, -1, false
 }
 
 // the tester doesn't halt goroutines created by Raft after each test,

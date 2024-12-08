@@ -3,7 +3,6 @@ package raft
 import (
 	"fmt"
 	"math/rand"
-	"sync"
 	"time"
 )
 
@@ -37,7 +36,7 @@ func (rf *Raft) ChangeToFollower(term uint32, voteFor int, mod int) {
 func (rf *Raft) ChangeToLeader() {
 	fmt.Println(fmt.Sprintf("%d become leader term %d", rf.me, rf.term))
 	rf.state = LeaderState
-	rf.BrocastHeartBeat()
+	go rf.BrocastHeartBeat()
 }
 
 func (rf *Raft) StartVote(term uint32) {
@@ -51,55 +50,43 @@ func (rf *Raft) StartVote(term uint32) {
 		return
 	}
 
-	rf.voteNums.Store(1)
+	rf.voteNums.Store(0)
 	rf.voteFor = rf.me
 	rf.term += 1
 	lastReply := RequestVoteReply{Term: rf.term, VoteGranted: false}
+	result := NotEnough
 
 	arg := RequestVoteArgs{Term: rf.term, CandidateId: rf.me, LastLogTerm: 0, LastLogIndex: 0}
-	wg := sync.WaitGroup{}
 
 	// when this channel have val means this func can return
 	done := make(chan VoteState, 1)
 	go func() {
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 		done <- VoteTimeOut
 	}()
 
-	for i := range rf.peers {
-		if i == rf.me {
-			continue
+	ch := rf.DoFunc(rf.sendRequestVote, &arg, &RequestVoteReply{}, 50*time.Millisecond)
+	for replys := range ch {
+		if err, ok := replys.(error); ok {
+			fmt.Println("debug ", err)
+			return
 		}
-		wg.Add(1)
-		go func(x int) {
-			defer wg.Done()
-			reply := RequestVoteReply{}
-			success := rf.sendRequestVote(x, &arg, &reply)
-			if !success {
-				fmt.Println(fmt.Sprintf("%d request rpc false, send to %d", rf.me, x))
-				return
+		reply := replys.(*RequestVoteReply)
+		fmt.Printf("austin debug request %+v\n", reply)
+		if reply.VoteGranted == false {
+			// need to change state to follower
+			lastReply = *reply
+			result = NeedToBecomeFollower
+			break
+		} else {
+			rf.voteNums.Add(1)
+			if rf.voteNums.Load() > uint32(len(rf.peers)/2) {
+				result = VoteForLeader
+				break
 			}
-
-			if reply.VoteGranted == false {
-				// need to change state to follower
-				lastReply = reply
-				done <- NeedToBecomeFollower
-				return
-			} else {
-				rf.voteNums.Add(1)
-				if rf.voteNums.Load() > uint32(len(rf.peers)/2) {
-					done <- VoteForLeader
-				}
-			}
-		}(i)
+		}
 	}
 
-	go func() {
-		wg.Wait()
-		done <- NotEnough
-	}()
-
-	result := <-done
 	fmt.Println(fmt.Sprintf("%d result %d", rf.me, result))
 
 	if result == VoteForLeader {
@@ -131,6 +118,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	if (rf.voteFor == -1 || rf.voteFor == args.CandidateId) && true {
 		reply.VoteGranted = true
 		rf.voteFor = args.CandidateId
+		reply.Term = rf.term
 		fmt.Println(fmt.Sprintf("%d receive vote to %d request in term %d, vote", rf.me, args.CandidateId, args.Term))
 	}
 
@@ -171,13 +159,41 @@ func (rf *Raft) CheckState(state RaftState, term uint32) bool {
 	return rf.state == state && rf.term == term
 }
 
-func (rf *Raft) sendRequestVote(server int, args *RequestVoteArgs, reply *RequestVoteReply) bool {
-	ok := rf.peers[server].Call("Raft.RequestVote", args, reply)
+func (rf *Raft) sendRequestVote(server int, args interface{}, replys interface{}) bool {
+	arg, ok := args.(*RequestVoteArgs)
+	if !ok {
+		fmt.Println("args error")
+		return false
+	}
+	reply, ok := replys.(*RequestVoteReply)
+	if !ok {
+		fmt.Println("replys error")
+		return false
+	}
+	if rf.me == server {
+		reply.VoteGranted = true
+		reply.Term = rf.term
+		return true
+	}
+	ok = rf.peers[server].Call("Raft.RequestVote", arg, reply)
+	fmt.Printf("austin debug0 get %d reply %+v\n", server, reply)
 	return ok
 }
 
-func (rf *Raft) sendAppendEntriesRpc(server int, args *AppendEntriesArgs, reply *AppendEntriesReplys) bool {
-	ok := rf.peers[server].Call("Raft.RequestAppendEntriesRpc", args, reply)
+func (rf *Raft) sendAppendEntriesRpc(server int, args interface{}, replys interface{}) bool {
+	if rf.me == server {
+		return true
+	}
+
+	arg, ok := args.(*AppendEntriesArgs)
+	if !ok {
+		return false
+	}
+	reply, ok := replys.(*AppendEntriesReplys)
+	if !ok {
+		return false
+	}
+	ok = rf.peers[server].Call("Raft.RequestAppendEntriesRpc", arg, reply)
 	return ok
 }
 
@@ -185,18 +201,16 @@ func (rf *Raft) BrocastHeartBeat() {
 	arg := AppendEntriesArgs{Term: rf.term, LeaderId: rf.me, PreLogIndex: 0, Entries: make([]interface{}, 0), LeaderCommit: 0}
 	reply := AppendEntriesReplys{}
 
-	for i := range rf.peers {
-		if rf.me != i {
-			go func(x int) {
-				fmt.Println(fmt.Sprintf("%d send append entries rpc to %d", rf.me, x))
-				rf.sendAppendEntriesRpc(x, &arg, &reply)
-
-				// if reply.term > this term return to follower
-				if reply.Term > rf.term {
-					rf.ChangeToFollower(reply.Term, -1, 4)
-					return
-				}
-			}(i)
+	ch := rf.DoFunc(rf.sendAppendEntriesRpc, &arg, &reply, 50*time.Millisecond)
+	for reply := range ch {
+		err, ok := reply.(error)
+		if ok {
+			fmt.Println("sendAppendEntriesRpc", err.Error())
+			continue
+		}
+		reply := reply.(*AppendEntriesReplys)
+		if reply.Term > rf.term {
+			rf.ChangeToFollower(reply.Term, -1, 4)
 		}
 	}
 }
@@ -209,7 +223,7 @@ func (rf *Raft) HeartBeatTicker() {
 			rf.mu.Lock()
 
 			fmt.Println(fmt.Sprintf("now %d is leader term %d", rf.me, rf.term))
-			rf.BrocastHeartBeat()
+			go rf.BrocastHeartBeat()
 
 			rf.mu.Unlock()
 		}
